@@ -3,19 +3,18 @@
 	"EngineAssociation": "4.23",
 	"Category": "",
 	"Description": "",
-	"Modules":
-	[
+	"Modules": [
 		{
 			"Name": "TournamentBracket",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
-				"Engine"
+				"Engine",
+				"UMGEditor"
 			]
 		}
 	],
-	"Plugins": 
-	[
+	"Plugins": [
 		{
 			"Name": "VaRestPlugin",
 			"Enabled": true
