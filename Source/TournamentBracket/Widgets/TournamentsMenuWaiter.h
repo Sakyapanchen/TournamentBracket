@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "WidgetBlueprint.h"
+#include "Blueprint/UserWidget.h"
 #include "Engine/Texture2DDynamic.h"
 #include "TournamentsMenuWaiter.generated.h"
 
@@ -30,7 +30,7 @@ struct FMatchData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (DisplayName = "Winner"))
 		uint8 Winner;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (DisplayName = "Timestamp"))
-		FString Timestamp;
+		int64 Timestamp;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (DisplayName = "Round"))
 		uint8 Round;
 };
@@ -41,25 +41,54 @@ struct FTournamentData
 	GENERATED_USTRUCT_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (DisplayName = "Teams"))
-		TArray<FTeamData> Teams;
+		TMap<FString, UTexture2DDynamic *> Teams;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (DisplayName = "Matches"))
 		TArray<FMatchData> Matches;
 };
 
 
 UCLASS()
-class TOURNAMENTBRACKET_API UTournamentsMenuWaiter : public UWidgetBlueprint
+class TOURNAMENTBRACKET_API UTournamentsMenuWaiter : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
 
+public:
+
+	UTournamentsMenuWaiter(const FObjectInitializer  &ObjectInitializer);
 
 	UFUNCTION(BlueprintCallable, Category = "Tournaments", meta = (DisplayName = "Cache Tournament Data"))
 		void CacheTournamentData(FString TournamentName, FTournamentData TournamentData);
 
 	UFUNCTION(BlueprintCallable, Category = "Tournaments", meta = (DisplayName = "Find Tournament Data"))
 		void FindTournamentData(FString TournamentName, FTournamentData & TournamentData, bool & bSuccess);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings", Meta = (DisplayName = "Tournaments List Link"))
+		FString TournamentsListLink = "index.json";
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings", Meta = (DisplayName = "Request Timeout", ClampMin = "0.1", UIMin = "0.1"))
+		float RequestTimeout = 2;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings|Tournament", Meta = (DisplayName = "Teams Field"))
+		FString TeamsField = "teams";
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings|Tournament", Meta = (DisplayName = "Matches Field"))
+		FString MatchesField = "matches";
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings|Tournament|Team", Meta = (DisplayName = "Team Name Field"))
+		FString TeamNameField = "name";
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings|Tournament|Team", Meta = (DisplayName = "Image Field"))
+		FString ImageField = "image";
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings|Tournament|Match", Meta = (DisplayName = "Team 0 Field"))
+		FString Team0Field = "team0";
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings|Tournament|Match", Meta = (DisplayName = "Team 1 Field"))
+		FString Team1Field = "team1";
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings|Tournament|Match", Meta = (DisplayName = "Winner Team Field"))
+		FString WinnerTeamField = "winner";
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings|Tournament|Match", Meta = (DisplayName = "Timestamp Field"))
+		FString TimestampField = "timestamp";
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings|Tournament|Match", Meta = (DisplayName = "Round Field"))
+		FString RoundField = "round";
 
 private:
 

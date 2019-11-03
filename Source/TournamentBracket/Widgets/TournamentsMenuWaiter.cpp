@@ -3,6 +3,11 @@
 
 #include "TournamentsMenuWaiter.h"
 
+UTournamentsMenuWaiter::UTournamentsMenuWaiter(const FObjectInitializer  &ObjectInitializer) : Super(ObjectInitializer)
+{
+
+}
+
 void UTournamentsMenuWaiter::CacheTournamentData(FString TournamentName, FTournamentData TournamentData)
 {
 	if (CachedTournaments.Contains(TournamentName))
