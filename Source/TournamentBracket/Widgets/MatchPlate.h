@@ -21,5 +21,7 @@ public:
 		void GetMatchData(struct FMatchData & MatchData);
 	UFUNCTION(BlueprintPure, BlueprintNativeEvent, Category = "Match Data", meta = (DisplayName = "Get Team Plates"))
 		void GetTeamPlates(class UTeamPlate * & FirstTeam, class UTeamPlate * & SecondTeam);
+	UFUNCTION(BlueprintPure, Category = "Match Data", meta = (DisplayName = "Get Match Date Form Unix Timestamp"))
+		void GetMatchDateFormUnixTimestamp(int64 Timestamp, FDateTime & Date);
 
 };
