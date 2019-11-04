@@ -25,3 +25,41 @@ void UTournamentsMenuWaiter::FindTournamentData(FString TournamentName, FTournam
 		return;
 	TournamentData = *CachedTournaments.Find(TournamentName);
 }
+
+void UTournamentsMenuWaiter::EmplaceMatchesData(int32 Round, int32 Timestamp, FMatchData MatchData, TMap<int32, FMatchesData> InMatches, TMap<int32, FMatchesData>& OutMatches)
+{
+	if (InMatches.Contains(Round))
+	{
+		FMatchesData matchesData = *InMatches.Find(Round);
+		matchesData.MatchesData.Add(Timestamp, MatchData);
+		matchesData.MatchesData.KeySort
+		(
+			[](int32 A, int32 B)
+			{return A < B; }
+		);
+		InMatches.Emplace(Round, matchesData);
+		OutMatches = InMatches;
+		OutMatches.KeySort
+		(
+			[](int32 A, int32 B)
+			{return A > B;}
+		);
+		return;
+	}
+	FMatchesData matchesData;
+	matchesData.MatchesData.Add(Timestamp, MatchData);
+	matchesData.MatchesData.KeySort
+	(
+		[](int32 A, int32 B)
+		{return A < B; }
+	);
+	InMatches.Add(Round, matchesData);
+	OutMatches = InMatches;
+	OutMatches.KeySort
+	(
+		[](int32 A, int32 B)
+		{return A > B; }
+	);
+}
+
+

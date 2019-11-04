@@ -29,10 +29,15 @@ struct FMatchData
 		FString SecondTeamName;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (DisplayName = "Winner"))
 		uint8 Winner;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (DisplayName = "Timestamp"))
-		int64 Timestamp;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (DisplayName = "Round"))
-		uint8 Round;
+};
+
+USTRUCT(BlueprintType)
+struct FMatchesData
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (DisplayName = "Matches Data"))
+		TMap<int32, FMatchData> MatchesData;
 };
 
 USTRUCT(BlueprintType)
@@ -43,7 +48,7 @@ struct FTournamentData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (DisplayName = "Teams"))
 		TMap<FString, UTexture2DDynamic *> Teams;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (DisplayName = "Matches"))
-		TArray<FMatchData> Matches;
+		TMap<int32, FMatchesData> Matches;
 };
 
 
@@ -63,6 +68,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Tournaments", meta = (DisplayName = "Find Tournament Data"))
 		void FindTournamentData(FString TournamentName, FTournamentData & TournamentData, bool & bSuccess);
+
+	UFUNCTION(BlueprintCallable, Category = "Tournaments", meta = (DisplayName = "Emplace Matche Data"))
+		void EmplaceMatchesData(int32 Round, int32 Timestamp, FMatchData MatchData, TMap<int32, FMatchesData> InMatches, TMap<int32, FMatchesData> & OutMatches);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings", Meta = (DisplayName = "Tournaments List Link"))
 		FString TournamentsListLink = "index.json";
